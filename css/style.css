@@ -947,3 +947,187 @@ button { cursor: pointer; font-family: var(--font-mono); }
   .exam-fields { gap: 8px; }
   .app-wrap { padding: 0 14px 40px; }
 }
+
+/* ══════════════════════════════
+   DYNAMIC EXAM SECTIONS
+══════════════════════════════ */
+.exam-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--input-bg);
+  border: 1px solid var(--panel-border);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  transition: all 0.2s;
+  animation: fadeIn 0.2s ease;
+}
+.exam-section.disabled { opacity: 0.4; }
+
+.esec-left { flex-shrink: 0; }
+.esec-label-wrap {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.esec-prefix {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.esec-label-input {
+  background: var(--night-deep);
+  border: 1px solid var(--panel-border);
+  color: var(--neon-cyan);
+  font-family: var(--font-pixel);
+  font-size: 11px;
+  width: 46px;
+  padding: 5px 6px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+.esec-label-input:focus {
+  border-color: var(--neon-cyan);
+  background: rgba(0,229,255,0.05);
+}
+
+.esec-fields {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+.esec-field {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.esec-field label {
+  font-size: 11px;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.esec-field input {
+  background: var(--night-deep);
+  border: 1px solid var(--panel-border);
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  padding: 5px 8px;
+  width: 64px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.esec-field input:focus { border-color: var(--neon-cyan); }
+.esec-subtotal span {
+  font-size: 11px;
+  color: var(--neon-green);
+  white-space: nowrap;
+}
+
+.esec-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.esec-toggle {
+  font-family: var(--font-pixel);
+  font-size: 7px;
+  padding: 7px 10px;
+  border: 1px solid var(--panel-border);
+  background: transparent;
+  color: var(--text-dim);
+  transition: all 0.15s;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+.esec-toggle.on {
+  border-color: var(--neon-green);
+  color: var(--neon-green);
+  background: rgba(57,255,20,0.07);
+}
+.esec-delete {
+  background: transparent;
+  border: 1px solid var(--panel-border);
+  color: var(--neon-pink);
+  font-size: 12px;
+  padding: 5px 9px;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1;
+}
+.esec-delete:hover {
+  background: rgba(255,45,120,0.1);
+  border-color: var(--neon-pink);
+}
+
+/* ADD SECTION BUTTON */
+.add-section-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 13px 16px;
+  background: transparent;
+  border: 1px dashed var(--panel-border);
+  color: var(--text-dim);
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 14px;
+}
+.add-section-btn:hover {
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  background: rgba(0,229,255,0.04);
+}
+.add-section-btn span:first-child {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* FREE BADGE */
+.free-badge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  background: rgba(57,255,20,0.05);
+  border: 1px solid rgba(57,255,20,0.25);
+  margin-bottom: 20px;
+}
+.free-icon { font-size: 22px; flex-shrink: 0; }
+.free-title {
+  font-family: var(--font-pixel);
+  font-size: 8px;
+  color: var(--neon-green);
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+.free-sub { font-size: 11px; color: var(--text-dim); line-height: 1.7; }
+
+/* MARKS TOTAL */
+.exam-marks-total {
+  font-size: 11px;
+  color: var(--text-dim);
+  padding: 10px 0 4px;
+  border-top: 1px solid var(--panel-border);
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+.exam-marks-total strong { color: var(--neon-cyan); }
+
+@media (max-width: 600px) {
+  .exam-section { flex-wrap: wrap; }
+  .esec-fields { gap: 10px; }
+  .esec-subtotal { display: none; }
+}
