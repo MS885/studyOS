@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyOS — AI Study Guide Generator</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- PIXEL BACKGROUND CANVAS -->
+  <canvas id="city-canvas"></canvas>
+  <div class="scanlines"></div>
+
+  <!-- ══════════════════════════════════════════
+       SCREEN: HOME
+  ══════════════════════════════════════════ -->
+  <div id="screen-home" class="screen active">
+    <div class="home-wrap">
+
+      <header class="home-header">
+        <div class="logo-mark">STUDY<span>OS</span></div>
+        <div class="header-right">
+          <span class="status-dot"></span>
+          <span class="status-text">SYSTEM ONLINE</span>
+        </div>
+      </header>
+
+      <!-- BG CHANGE BUTTON -->
+      <button class="bg-change-btn" id="bg-change-btn" title="Change background scene">
+        <span class="bg-btn-icon">◈</span>
+        <span>CHANGE SCENE</span>
+      </button>
+      <div class="scene-label" id="scene-label"></div>
+
+      <main class="home-main">
+        <div class="home-hero">
+          <div class="hero-tagline">YOUR AI-POWERED</div>
+          <h1 class="hero-title">STUDY<br><span>OPERATING</span><br>SYSTEM</h1>
+          <p class="hero-sub">Upload up to 5 PDFs · Pick a learning style · Get a full study guide + exam quiz · Instantly.</p>
+          <button class="cta-btn" onclick="goScreen('upload')">
+            <span>BOOT UP SESSION</span>
+            <span class="cta-arrow">▶</span>
+          </button>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feat-card">
+            <div class="feat-icon">🔍</div>
+            <div class="feat-title">6 STUDY STYLES</div>
+            <div class="feat-desc">Detective · Flashcard · Visual · Cornell · Feynman · Mind Map</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">📄</div>
+            <div class="feat-title">MULTI-PDF</div>
+            <div class="feat-desc">Upload up to 5 PDFs at once (~50 slides each). All processed together.</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">⚡</div>
+            <div class="feat-title">EXAM-READY QUIZ</div>
+            <div class="feat-desc">Section A/B/C pattern. Custom marks. Auto-scored interactive quiz.</div>
+          </div>
+          <div class="feat-card">
+            <div class="feat-icon">🌙</div>
+            <div class="feat-title">PIXEL AESTHETIC</div>
+            <div class="feat-desc">Built for late-night study sessions. Cyberpunk city vibes only.</div>
+          </div>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SCREEN: UPLOAD
+  ══════════════════════════════════════════ -->
+  <div id="screen-upload" class="screen">
+    <div class="app-wrap">
+
+      <div class="app-topbar">
+        <button class="back-btn" onclick="goScreen('home')">◀ HOME</button>
+        <div class="logo-small">STUDY<span>OS</span></div>
+        <div class="step-indicator" id="step-indicator">STEP 1 / 4</div>
+      </div>
+
+      <div class="progress-bar-wrap">
+        <div class="progress-bar" id="progress-bar" style="width:25%"></div>
+      </div>
+
+      <div class="step-content" id="step-content">
+        <!-- Injected by JS -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       SCREEN: RESULTS
+  ══════════════════════════════════════════ -->
+  <div id="screen-results" class="screen">
+    <div class="app-wrap">
+
+      <div class="app-topbar">
+        <button class="back-btn" onclick="newSession()">◀ NEW SESSION</button>
+        <div class="logo-small">STUDY<span>OS</span></div>
+        <div class="step-indicator" style="color:var(--neon-green)">COMPLETE ✓</div>
+      </div>
+
+      <div class="result-tabs">
+        <button class="rtab active" id="rtab-guide" onclick="switchTab('guide')">📖 STUDY GUIDE</button>
+        <button class="rtab" id="rtab-quiz" onclick="switchTab('quiz')">⚡ EXAM QUIZ</button>
+      </div>
+
+      <div class="result-body">
+        <div class="rpane active" id="rpane-guide">
+          <div class="result-content" id="guide-content"></div>
+        </div>
+        <div class="rpane" id="rpane-quiz">
+          <div id="quiz-score-bar" class="quiz-score-bar" style="display:none"></div>
+          <div id="quiz-content"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       LOADING OVERLAY
+  ══════════════════════════════════════════ -->
+  <div id="loading-overlay" class="loading-overlay">
+    <div class="loading-box">
+      <div class="pixel-spinner"></div>
+      <div class="loading-title" id="loading-title">INITIALIZING...</div>
+      <div class="loading-sub" id="loading-sub">Booting StudyOS kernel...</div>
+      <div class="loading-progress">
+        <div class="loading-progress-fill" id="loading-progress-fill"></div>
+      </div>
+      <div class="loading-log" id="loading-log"></div>
+    </div>
+  </div>
+
+  <!-- API KEY MODAL -->
+  <div id="apikey-modal" class="modal-overlay" style="display:none">
+    <div class="modal-box">
+      <div class="modal-title">// API KEY REQUIRED</div>
+      <p class="modal-desc">StudyOS uses the Claude API to generate study guides. Your key is stored <strong>only in your browser</strong> (localStorage) and never sent anywhere except Anthropic's servers.</p>
+      <p class="modal-desc" style="color:var(--neon-cyan);margin-top:8px">Get your free key at: <a href="https://console.anthropic.com" target="_blank" style="color:var(--neon-green)">console.anthropic.com</a></p>
+      <input type="password" id="apikey-input" class="modal-input" placeholder="sk-ant-api03-...">
+      <div class="modal-err" id="modal-err"></div>
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button class="modal-btn-sec" onclick="closeApiModal()">CANCEL</button>
+        <button class="modal-btn-pri" onclick="saveApiKey()">SAVE & CONTINUE ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/city.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
